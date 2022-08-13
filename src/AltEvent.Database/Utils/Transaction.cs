@@ -9,11 +9,11 @@
             handler = new TransactionHandler(context);
         }
 
-        private T Begin<T>(Func<TransactionHandler, T> action)
+        private T Begin<T>(Func<TransactionHandler, T> func)
         {
             try
             {
-                var result = action(handler);
+                var result = func(handler);
 
                 if (!handler.Aborted)
                     handler.Commit();
@@ -27,9 +27,32 @@
             }
         }
 
-        public static T Begin<T>(DatabaseContext context, Func<TransactionHandler, T> action)
+        private async Task<T> BeginAsync<T>(Func<TransactionHandler, Task<T>> func)
         {
-            return new Transaction(context).Begin(action);
+            try
+            {
+                var result = await func(handler);
+
+                if (!handler.Aborted)
+                    await handler.CommitAsync();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                handler.Rollback();
+                throw;
+            }
+        }
+
+        public static T Begin<T>(DatabaseContext context, Func<TransactionHandler, T> func)
+        {
+            return new Transaction(context).Begin(func);
+        }
+
+        public static Task<T> BeginAsync<T>(DatabaseContext context, Func<TransactionHandler, Task<T>> func)
+        {
+            return new Transaction(context).BeginAsync(func);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace AltEvent.Database.Repositories
             this.context = context;
         }
 
-        public IEnumerable<Company> Get(CompanyQuery query)
+        public async Task<IEnumerable<Company>> GetAsync(CompanyQuery query)
         {
             if (query.Search != null)
             {
@@ -22,27 +22,27 @@ namespace AltEvent.Database.Repositories
                                 where EF.Functions.Like(c.Name, $"%{query.Search}%")
                                 select c;
 
-                return companies;
+                return await companies.ToListAsync();
             }
 
             return Array.Empty<Company>();
         }
 
-        public Company? Get(long id)
+        public Task<Company?> GetAsync(long id)
         {
-            return context.Companies.FirstOrDefault(c => c.Id == id);
+            return context.Companies.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public Company? GetByUser(User user)
+        public Task<Company?> GetByUserAsync(User user)
         {
             return context.Companies
                 .Where(c => c.Users.Contains(user))
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public Company? Create(CompanyCreateDto dto, CreateOptions? options)
+        public async Task<Company?> CreateAsync(CompanyCreateDto dto, CreateOptions? options)
         {
-            var entity = context.Companies.Add(new Company()
+            var entity = await context.Companies.AddAsync(new Company()
             {
                 Name = dto.Name,
                 Description = dto.Description,
@@ -50,14 +50,14 @@ namespace AltEvent.Database.Repositories
             });
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return entity?.Entity;
         }
 
-        public Company? Update(long id, CompanyUpdateDto dto, UpdateOptions? options)
+        public async Task<Company?> UpdateAsync(long id, CompanyUpdateDto dto, UpdateOptions? options)
         {
-            var company = Get(id);
+            var company = await GetAsync(id);
 
             if (company == null)
                 return null;
@@ -72,7 +72,7 @@ namespace AltEvent.Database.Repositories
                 company.Users = dto.Users;
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return company;
         }

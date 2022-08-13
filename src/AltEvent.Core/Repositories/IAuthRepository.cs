@@ -4,10 +4,10 @@ namespace AltEvent.Core.Repositories
 {
     public interface IAuthRepository
     {
-        AuthResultDto? Register(AuthRegistrationDto dto);
+        Task<AuthResultDto?> RegisterAsync(AuthRegistrationDto dto);
 
-        AuthResultDto? Login(AuthLoginDto dto);
+        Task<AuthResultDto?> LoginAsync(AuthLoginDto dto);
 
-        AuthResultDataDto? LoadData(long userId);
+        Task<AuthResultDataDto?> LoadDataAsync(long userId);
     }
 }

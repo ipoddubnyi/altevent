@@ -18,6 +18,11 @@ namespace AltEvent.Database.Utils
             context.SaveChanges();
         }
 
+        public Task CommitAsync()
+        {
+            return context.SaveChangesAsync();
+        }
+
         public void Rollback()
         {
             context.ChangeTracker.Clear();

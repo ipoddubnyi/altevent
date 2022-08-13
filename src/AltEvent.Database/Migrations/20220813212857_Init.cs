@@ -85,7 +85,7 @@ namespace AltEvent.Database.Migrations
                     EndTime = table.Column<TimeOnly>(type: "TEXT", nullable: true),
                     Location = table.Column<string>(type: "TEXT", maxLength: 64, nullable: false),
                     Capacity = table.Column<int>(type: "INTEGER", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AltEvent.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220813085711_Init")]
+    [Migration("20220813212857_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,7 +75,9 @@ namespace AltEvent.Database.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Location")
                         .IsRequired()

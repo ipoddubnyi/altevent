@@ -14,12 +14,12 @@ namespace AltEvent.Database.Repositories
             this.context = context;
         }
 
-        public IEnumerable<Event> Get(long companyId, EventQuery query)
+        public async Task<IEnumerable<Event>> GetAsync(long companyId, EventQuery query)
         {
             var start = query.Start != null ? DateOnly.Parse(query.Start) : DateOnly.MinValue;
             var end = query.End != null ? DateOnly.Parse(query.End) : DateOnly.MaxValue;
 
-            return context.Events
+            return await context.Events
                 .Where(e => e.CompanyId == companyId)
                 .Where(e => !e.IsDeleted)
                 .Where(e =>
@@ -27,20 +27,21 @@ namespace AltEvent.Database.Repositories
                     e.EndDate >= start && e.EndDate <= end
                 )
                 .Include(e => e.Reservations)
-                .Select(e => e);
+                .Select(e => e)
+                .ToListAsync();
         }
 
-        public Event? Get(long id)
+        public Task<Event?> GetAsync(long id)
         {
             return context.Events
                 .Where(e => e.Id == id)
                 .Include(e => e.Reservations)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public Event? Create(long companyId, EventCreateDto dto, CreateOptions? options = null)
+        public async Task<Event?> CreateAsync(long companyId, EventCreateDto dto, CreateOptions? options = null)
         {
-            var entity = context.Events.Add(new Event()
+            var entity = await context.Events.AddAsync(new Event()
             {
                 CompanyId = companyId,
                 CreatorId = dto.CreatorId,
@@ -53,19 +54,18 @@ namespace AltEvent.Database.Repositories
                 EndTime = dto.EndTime != null ? TimeOnly.Parse(dto.EndTime) : null,
                 Location = dto.Location,
                 Capacity = dto.Capacity,
-                IsDeleted = false,
                 Hosts = dto.Hosts,
             });
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return entity?.Entity;
         }
 
-        public Event? Update(long id, EventUpdateDto dto, UpdateOptions? options = null)
+        public async Task<Event?> UpdateAsync(long id, EventUpdateDto dto, UpdateOptions? options = null)
         {
-            var evnt = Get(id);
+            var evnt = await GetAsync(id);
 
             if (evnt == null)
                 return null;
@@ -101,14 +101,14 @@ namespace AltEvent.Database.Repositories
                 evnt.Hosts = dto.Hosts;
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return evnt;
         }
 
-        public Event? Delete(long id, DeleteOptions? options = null)
+        public async Task<Event?> DeleteAsync(long id, DeleteOptions? options = null)
         {
-            var evnt = Get(id);
+            var evnt = await GetAsync(id);
 
             if (evnt == null)
                 return null;
@@ -116,7 +116,7 @@ namespace AltEvent.Database.Repositories
             evnt.IsDeleted = true;
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return evnt;
         }

@@ -14,19 +14,19 @@ namespace AltEvent.Database.Repositories
             this.context = context;
         }
 
-        public Reservation? Get(long id)
+        public Task<Reservation?> GetAsync(long id)
         {
             return context.Reservations
                 .Where(r => r.Id == id)
                 .Include(r => r.Event)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public Reservation? Create(ReservationCreateDto dto, CreateOptions? options = null)
+        public async Task<Reservation?> CreateAsync(ReservationCreateDto dto, CreateOptions? options = null)
         {
             var rnd = new Random();
 
-            var entity = context.Reservations.Add(new Reservation()
+            var entity = await context.Reservations.AddAsync(new Reservation()
             {
                 EventId = dto.EventId,
                 Name = dto.Name,
@@ -37,14 +37,14 @@ namespace AltEvent.Database.Repositories
             });
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return entity?.Entity;
         }
 
-        public Reservation? Update(long id, ReservationUpdateDto dto, UpdateOptions? options = null)
+        public async Task<Reservation?> UpdateAsync(long id, ReservationUpdateDto dto, UpdateOptions? options = null)
         {
-            var reservation = Get(id);
+            var reservation = await GetAsync(id);
 
             if (reservation == null)
                 return null;
@@ -62,14 +62,14 @@ namespace AltEvent.Database.Repositories
                 reservation.Email = dto.Email;
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return reservation;
         }
 
-        public Reservation? Delete(long id, DeleteOptions? options = null)
+        public async Task<Reservation?> DeleteAsync(long id, DeleteOptions? options = null)
         {
-            var reservation = Get(id);
+            var reservation = await GetAsync(id);
 
             if (reservation == null)
                 return null;
@@ -77,7 +77,7 @@ namespace AltEvent.Database.Repositories
             context.Reservations.Remove(reservation);
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return reservation;
         }

@@ -2,6 +2,7 @@
 using AltEvent.Core.Models;
 using AltEvent.Core.Repositories;
 using AltEvent.Core.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace AltEvent.Database.Repositories
 {
@@ -18,21 +19,21 @@ namespace AltEvent.Database.Repositories
             this.cryptoService = cryptoService;
         }
 
-        public User? Get(long id)
+        public Task<User?> GetAsync(long id)
         {
-            return context.Users.FirstOrDefault(u => u.Id == id);
+            return context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public User? GetByEmail(string email)
+        public Task<User?> GetByEmailAsync(string email)
         {
             return context.Users
                 .Where(u => u.Email.ToLower().Equals(email.ToLower()))
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public User? Create(UserCreateDto dto, CreateOptions? options)
+        public async Task<User?> CreateAsync(UserCreateDto dto, CreateOptions? options)
         {
-            var entity = context.Users.Add(new User()
+            var entity = await context.Users.AddAsync(new User()
             {
                 Name = dto.Name,
                 Description = dto.Description,
@@ -42,14 +43,14 @@ namespace AltEvent.Database.Repositories
             });
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return entity?.Entity;
         }
 
-        public User? Update(long id, UserUpdateDto dto, UpdateOptions? options)
+        public async Task<User?> UpdateAsync(long id, UserUpdateDto dto, UpdateOptions? options)
         {
-            var user = Get(id);
+            var user = await GetAsync(id);
 
             if (user == null)
                 return null;
@@ -67,14 +68,14 @@ namespace AltEvent.Database.Repositories
                 user.Email = dto.Email;
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return user;
         }
 
-        public User? ChangePassword(long id, UserChangePasswordDto dto, UpdateOptions? options)
+        public async Task<User?> ChangePasswordAsync(long id, UserChangePasswordDto dto, UpdateOptions? options)
         {
-            var user = context.Users.FirstOrDefault(u => u.Id == id);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
                 return null;
@@ -85,7 +86,7 @@ namespace AltEvent.Database.Repositories
             user.Password = cryptoService.Hash(dto.NewPassword);
 
             if (options?.Transaction == null)
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
             return user;
         }

@@ -103,6 +103,10 @@ namespace AltEvent.Database
                 .HasMaxLength(64);
 
             modelBuilder.Entity<Event>()
+                .Property(e => e.IsDeleted)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<Event>()
                 .HasIndex(e => e.CompanyId);
 
             //

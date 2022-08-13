@@ -32,17 +32,17 @@ namespace AltEvent.Database.Repositories
             this.cryptoService = cryptoService;
         }
 
-        public AuthResultDto? Register(AuthRegistrationDto dto)
+        public async Task<AuthResultDto?> RegisterAsync(AuthRegistrationDto dto)
         {
-            var user = userRepository.GetByEmail(dto.Email);
+            var user = await userRepository.GetByEmailAsync(dto.Email);
             if (user != null)
                 throw new ApplicationException("Email is already registered.");
 
-            var result = Transaction.Begin(context, handler => {
+            var result = await Transaction.BeginAsync(context, async handler => {
                 var options = new CreateOptions() { Transaction = handler };
 
                 // создание пользователя
-                user = userRepository.Create(new UserCreateDto()
+                user = await userRepository.CreateAsync(new UserCreateDto()
                 {
                     Name = dto.Name,
                     Email = dto.Email,
@@ -53,7 +53,7 @@ namespace AltEvent.Database.Repositories
                     throw new ApplicationException("Unable to create user.");
 
                 // создание компании
-                var company = companyRepository.Create(new CompanyCreateDto()
+                var company = await companyRepository.CreateAsync(new CompanyCreateDto()
                 {
                     Name = COMPANY_DEFAULT_NAME,
                     Users = new List<User>() { user },
@@ -68,9 +68,9 @@ namespace AltEvent.Database.Repositories
             return result;
         }
 
-        public AuthResultDto? Login(AuthLoginDto dto)
+        public async Task<AuthResultDto?> LoginAsync(AuthLoginDto dto)
         {
-            var user = userRepository.GetByEmail(dto.Email);
+            var user = await userRepository.GetByEmailAsync(dto.Email);
             if (user == null)
                 throw new ApplicationException("Invalid login or password.");
 
@@ -78,21 +78,21 @@ namespace AltEvent.Database.Repositories
                 throw new ApplicationException("Invalid login or password.");
 
             // TODO: у юзера может быть несколько компаний
-            var company = companyRepository.GetByUser(user);
+            var company = await companyRepository.GetByUserAsync(user);
             if (company == null)
                 throw new ApplicationException("Invalid login or password.");
 
             return MakePayload(user, company);
         }
 
-        public AuthResultDataDto? LoadData(long userId)
+        public async Task<AuthResultDataDto?> LoadDataAsync(long userId)
         {
-            var user = userRepository.Get(userId);
+            var user = await userRepository.GetAsync(userId);
             if (user == null)
                 throw new ApplicationException("Invalid user id.");
 
             // TODO: у юзера может быть несколько компаний
-            var company = companyRepository.GetByUser(user);
+            var company = await companyRepository.GetByUserAsync(user);
             if (company == null)
                 throw new ApplicationException("Invalid company.");
 

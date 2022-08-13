@@ -5,14 +5,14 @@ namespace AltEvent.Core.Repositories
 {
     public interface IUserRepository
     {
-        User? Get(long id);
+        Task<User?> GetAsync(long id);
 
-        User? GetByEmail(string email);
+        Task<User?> GetByEmailAsync(string email);
 
-        User? Create(UserCreateDto dto, CreateOptions? options);
+        Task<User?> CreateAsync(UserCreateDto dto, CreateOptions? options);
 
-        User? Update(long id, UserUpdateDto dto, UpdateOptions? options);
+        Task<User?> UpdateAsync(long id, UserUpdateDto dto, UpdateOptions? options);
 
-        User? ChangePassword(long id, UserChangePasswordDto dto, UpdateOptions? options);
+        Task<User?> ChangePasswordAsync(long id, UserChangePasswordDto dto, UpdateOptions? options);
     }
 }

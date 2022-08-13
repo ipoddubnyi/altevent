@@ -5,14 +5,14 @@ namespace AltEvent.Core.Repositories
 {
     public interface IEventRepository
     {
-        IEnumerable<Event> Get(long companyId, EventQuery query);
+        Task<IEnumerable<Event>> GetAsync(long companyId, EventQuery query);
 
-        Event? Get(long id);
+        Task<Event?> GetAsync(long id);
 
-        Event? Create(long companyId, EventCreateDto dto, CreateOptions? options = null);
+        Task<Event?> CreateAsync(long companyId, EventCreateDto dto, CreateOptions? options = null);
 
-        Event? Update(long id, EventUpdateDto dto, UpdateOptions? options = null);
+        Task<Event?> UpdateAsync(long id, EventUpdateDto dto, UpdateOptions? options = null);
 
-        Event? Delete(long id, DeleteOptions? options = null);
+        Task<Event?> DeleteAsync(long id, DeleteOptions? options = null);
     }
 }

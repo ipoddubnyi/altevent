@@ -5,14 +5,14 @@ namespace AltEvent.Core.Repositories
 {
     public interface ICompanyRepository
     {
-        IEnumerable<Company> Get(CompanyQuery query);
+        Task<IEnumerable<Company>> GetAsync(CompanyQuery query);
 
-        Company? Get(long id);
+        Task<Company?> GetAsync(long id);
 
-        Company? GetByUser(User user);
+        Task<Company?> GetByUserAsync(User user);
 
-        Company? Create(CompanyCreateDto dto, CreateOptions? options);
+        Task<Company?> CreateAsync(CompanyCreateDto dto, CreateOptions? options);
 
-        Company? Update(long id, CompanyUpdateDto dto, UpdateOptions? options);
+        Task<Company?> UpdateAsync(long id, CompanyUpdateDto dto, UpdateOptions? options);
     }
 }
