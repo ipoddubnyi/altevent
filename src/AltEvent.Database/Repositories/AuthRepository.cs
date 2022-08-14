@@ -62,10 +62,10 @@ namespace AltEvent.Database.Repositories
                 if (company == null)
                     throw new ApplicationException("Unable to create company.");
 
-                return MakePayload(user, company);
+                return (user, company);
             });
 
-            return result;
+            return MakePayload(result.user, result.company);
         }
 
         public async Task<AuthResultDto?> LoginAsync(AuthLoginDto dto)
