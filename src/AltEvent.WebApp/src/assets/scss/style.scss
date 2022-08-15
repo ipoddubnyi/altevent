@@ -1,0 +1,331 @@
+//@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+@import url('https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css');
+
+@import "./root.scss";
+
+$font-family: 'Montserrat', Helvetica, Arial, serif !default; //'Poppins', sans-serif;
+$primary: var(--alt-primary);
+$success: var(--alt-success);
+$warning: var(--alt-warning);
+$danger: var(--alt-danger);
+$info: var(--alt-info);
+$black: #000000;
+$white: #ffffff;
+$gray-600: gray;
+
+//@import "./element-plus-custom-vars.scss";
+
+//
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-family;
+  text-align: left;
+  //color: var(--alt-main-text-color);
+}
+
+//
+
+.text-primary {
+  color: $primary;
+}
+
+.hover\:text-primary {
+  &:hover {
+    color: $primary;
+  }
+}
+
+.text-danger {
+  color: $danger;
+}
+
+.text-gray {
+  color: $gray-600;
+}
+
+//
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.bold-normal {
+  font-weight: normal;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bold-500 {
+  font-weight: 500;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-last-center {
+  text-align-last: center;
+}
+
+.font-style-normal {
+  font-style: normal;
+}
+
+.font-style-italic {
+  font-style: italic;
+}
+
+//
+
+.text-xl {
+  font-size: 1.125rem;
+}
+
+.text-lg {
+  font-size: 1.07rem;
+}
+
+.text-normal {
+  font-size: 1rem;
+}
+
+.text-sm {
+  font-size: 0.85rem;
+}
+
+.text-xs {
+  font-size: 0.7rem;
+}
+
+//
+
+.w-auto {
+  width: auto;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-75 {
+  width: 75%;
+}
+
+.w-66 {
+  width: 66%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-33 {
+  width: 33%;
+}
+
+.w-25 {
+  width: 25%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+//
+
+.h-auto {
+  height: auto;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+//
+
+.font-0\.5 {
+  font-size: 0.5rem;
+}
+
+.font-0\.75 {
+  font-size: 0.75rem;
+}
+
+.font-1 {
+  font-size: 1rem;
+}
+
+.font-1\.25 {
+  font-size: 1.25rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-content-start {
+  justify-content: start;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-end {
+  justify-content: end;
+}
+
+.align-items-start {
+  align-items: start;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-end {
+  align-items: end;
+}
+
+.v-align-top {
+  vertical-align: top;
+}
+
+.v-align-middle {
+  vertical-align: middle;
+}
+
+.v-align-bottom {
+  vertical-align: bottom;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.justify-end {
+  justify-content: end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+//
+
+.line-h-1 {
+  line-height: 1rem;
+}
+
+.line-h-1\.125 {
+  line-height: 1.125rem;
+}
+
+.line-h-1\.25 {
+  line-height: 1.25rem;
+}
+
+.line-h-1\.5 {
+  line-height: 1.5rem;
+}
+
+.line-h-1\.75 {
+  line-height: 1.75rem;
+}
+
+.line-h-2 {
+  line-height: 2rem;
+}
+
+//
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.white-space-normal {
+  white-space: normal;
+}
+
+.white-space-nowrap {
+  white-space: nowrap;
+}
+
+//
+
+.opacity-1 {
+  opacity: 1;
+}
+
+.opacity-0\.75 {
+  opacity: 0.75;
+}
+
+.opacity-0\.66 {
+  opacity: 0.66;
+}
+
+.opacity-0\.5 {
+  opacity: 0.5;
+}
+
+.opacity-0\.33 {
+  opacity: 0.33;
+}
+
+.opacity-0\.25 {
+  opacity: 0.25;
+}
+
+.opacity-0\.1 {
+  opacity: 0.1;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+//
+
+.bg-warning {
+  background: $warning;
+}
+
+//
+
+@import "./alt-styles/margin.scss";
+@import "./alt-styles/padding.scss";
