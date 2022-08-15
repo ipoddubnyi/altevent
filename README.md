@@ -27,3 +27,19 @@
 - База данных: реляционная (SQLite)
 - ORM: Entity Framework Core
 - Клиентская часть: Vue.js 3, TypeScript
+
+
+## Развёртывание в режиме разработки
+
+Серверная часть `AltEvent.Api` (`ASP.NET Core`):
+
+1. Восстановить зависимости (`dotnet restore`).
+2. Изменить настройки конфигурации `appsettings.json`.
+3. Разввернуть базу на основе миграций `Update-Database`.
+4. Собрать (`dotnet build`) и запустить (`dotnet run`).
+
+Клиентская часть `AltEvent.WebApp` (`Vue.js`):
+
+1. Восстановить зависимости (`npm i`).
+2. Создать файл с настройками конфигурации `.env` (см. пример `.env.example`).
+3. Собрать и запустить (`npm run serve`).
