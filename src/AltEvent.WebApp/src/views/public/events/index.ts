@@ -66,6 +66,7 @@ export default class EventsPage extends Vue {
             await this.selectEvents();
             this.calendarOptions.events = this.events.map(e => this.convertForCalendar(e));
         },
+        height: 650,
     };
 
     private reservationModal = new ReservationModal();

@@ -74,6 +74,7 @@ export default class CalendarPage extends Vue {
             // const api = this.fullCalendar.getApi();
             // api.addEventSource(events.map(e => this.convertForCalendar(e)));
         },
+        height: 650,
     };
 
     private eventModal = new EventModal();
